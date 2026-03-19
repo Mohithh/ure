@@ -28,7 +28,7 @@ export default function Footer() {
           <div>
             <ul className="flex flex-col gap-4 text-sm font-semibold">
               <li><a href="#" className="hover:opacity-70 transition-opacity">About Us</a></li>
-              <li><a href="#" className="hover:opacity-70 transition-opacity">Careers</a></li>
+              <li><a href="/careers" className="hover:opacity-70 transition-opacity">Careers</a></li>
             </ul>
           </div>
           

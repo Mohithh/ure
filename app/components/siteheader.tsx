@@ -59,8 +59,8 @@ const navItems: NavItem[] = [
       { label: 'cam gift city', href: '#' },
     ],
   },
-  { label: 'careers', href: '#' },
-  { label: 'contact us', href: '#' },
+  { label: 'careers', href: './careers' },
+  { label: 'contact us', href: './contactus' },
 ];
 
 export default function SiteHeader() {
@@ -68,7 +68,7 @@ export default function SiteHeader() {
 
   return (
     <>
-      <header className="bg-[#F4F3EE] border-b border-[#B1ADA1]/30 relative z-1000 px-12 lg:px-20">
+      <header className="bg-[#F4F3EE] border-b border-[#B1ADA1]/30 relative z-1000 px-18 lg:px-20">
         <div className="max-w-425 mx-auto py-5 flex items-center justify-between">
 
           {/* Hamburger */}
@@ -85,20 +85,8 @@ export default function SiteHeader() {
 
           {/* Logo - URE legal advocates */}
           <Link href="/" className="flex flex-col items-center gap-1 shrink-0 group">
-            <div
-              className="w-14 h-14 rounded-full bg-[#C15F3C] border-2 border-[#B1ADA1] flex items-center justify-center text-[#F4F3EE] text-xl font-bold shrink-0 transition-opacity group-hover:opacity-80"
-              style={{ fontFamily: "'EB Garamond', serif" }}
-            >
-              URE
-            </div>
-            <div className="flex flex-col items-center text-center">
-              <span
-                className="text-[#C15F3C] text-[16px] font-bold uppercase tracking-tight group-hover:text-[#B1ADA1] transition-colors"
-                style={{ fontFamily: "'Open Sans', sans-serif" }}
-              >
-                URE <span className="lowercase">legal advocates</span>
-              </span>
-            </div>
+            
+          <img src="./public/logo.jpeg" alt="URE Legal Advocates" />
           </Link>
 
           {/* Navigation */}
