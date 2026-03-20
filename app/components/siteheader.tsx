@@ -68,8 +68,8 @@ export default function SiteHeader() {
 
   return (
     <>
-      <header className="bg-[#F4F3EE] border-b border-[#B1ADA1]/30 relative z-1000 px-18 lg:px-20">
-        <div className="max-w-425 mx-auto py-5 flex items-center justify-between">
+      <header className="bg-[#F4F3EE] border-b border-[#B1ADA1]/30 relative z-1000 px-6 lg:px-10">
+        <div className="max-w-7xl mx-auto py-5 flex items-center justify-center gap-8 lg:gap-14">
 
           {/* Hamburger */}
           <button
@@ -86,17 +86,17 @@ export default function SiteHeader() {
           {/* Logo - URE legal advocates */}
           <Link href="/" className="flex flex-col items-center gap-1 shrink-0 group">
             
-          <img src="./public/logo.jpeg" alt="URE Legal Advocates" />
+          <img src="/logo.jpeg" alt="URE Legal Advocates" />
           </Link>
 
           {/* Navigation */}
-          <nav className="flex-1 flex justify-center px-6">
-            <ul className="flex items-center gap-8 list-none m-0 p-0">
+          <nav className="flex-none flex justify-center px-4">
+            <ul className="flex items-center gap-6 list-none m-0 p-0">
               {navItems.map((item) => (
                 <li key={item.label} className="relative group">
                   <Link
                     href={item.href ?? '#'}
-                    className="text-[#C15F3C] text-sm lowercase transition-all duration-300 hover:bg-[#B1ADA1]/50 px-4 py-2 rounded-md block whitespace-nowrap"
+                    className="text-[#C15F3C] text-xs uppercase font-medium transition-all duration-300 hover:bg-[#B1ADA1]/50 px-2 py-2 rounded-md block whitespace-nowrap"
                     style={{ fontFamily: "'Open Sans', sans-serif" }}
                   >
                     {item.label}
@@ -110,7 +110,7 @@ export default function SiteHeader() {
                           <li key={sub.label}>
                             <Link
                               href={sub.href}
-                              className="block px-6 py-2.5 text-[#C15F3C] text-[13px] lowercase hover:bg-[#B1ADA1]/50 transition-colors duration-200"
+                              className="block px-6 py-2.5 text-[#C15F3C] text-[12px] capitalize hover:bg-[#B1ADA1]/50 transition-colors duration-200"
                               style={{ fontFamily: "'Open Sans', sans-serif" }}
                             >
                               {sub.label}
