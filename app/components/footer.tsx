@@ -1,7 +1,12 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 export default function Footer() {
+  const pathname = usePathname();
+
   return (
     <footer className="bg-[#C15F3C] text-[#F4F3EE] py-16 px-6 md:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto">

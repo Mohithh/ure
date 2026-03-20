@@ -15,7 +15,7 @@ export default function Home() {
       <Leadership />
       <Awards />
       <Careers />
-      <Footer />
+      {/* <Footer /> */}
      
     </div>
   );

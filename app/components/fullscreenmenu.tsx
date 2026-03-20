@@ -6,7 +6,8 @@ import Link from 'next/link';
 type MenuItem = {
   label: string;
   panelId: string;
-  links: string[];
+  links: { label: string; href: string }[];
+  mainHref?: string;
 };
 
 const menuItems: MenuItem[] = [
@@ -18,32 +19,59 @@ const menuItems: MenuItem[] = [
   {
     label: 'people',
     panelId: 'people',
-    links: ['senior management/ practice leadership', 'partners'],
+    links: [
+      { label: 'senior management/ practice leadership', href: '#' },
+      { label: 'partners', href: '#' }
+    ],
   },
   {
     label: 'innovation',
     panelId: 'innovation',
-    links: ['legaltech & als', 'culture of innovation', 'vichaar', 'prarambh', 'legaltech education'],
+    mainHref: '/innovation',
+    links: [
+      { label: 'legaltech & als', href: '/innovation/legaltech-als' },
+      { label: 'culture of innovation', href: '/innovation/culture-of-innovation' },
+      { label: 'vichaar', href: '/innovation/vichaar' },
+      { label: 'prarambh', href: '/innovation/prarambh' },
+      { label: 'legaltech education', href: '/innovation/legaltech-education' }
+    ],
   },
   {
     label: 'thought leadership',
     panelId: 'thought-leadership',
-    links: ['cam publications', 'the new labour codes', 'newsletters', 'blogs', 'videos', 'published articles', 'podcasts'],
+    mainHref: '/thought-leadership',
+    links: [
+      { label: 'cam publications', href: '/thought-leadership/cam-publications' },
+      { label: 'the new labour codes', href: '/thought-leadership/new-labour-codes' },
+      { label: 'newsletters', href: '/thought-leadership/newsletters' },
+      { label: 'blogs', href: '/thought-leadership/blogs' },
+      { label: 'videos', href: '/thought-leadership/videos' },
+      { label: 'published articles', href: '/thought-leadership/published-articles' },
+      { label: 'podcasts', href: '/thought-leadership/podcasts' }
+    ],
   },
   {
     label: 'about us',
     panelId: 'about-us',
-    links: ['awards & accolades', 'press release', 'cam in news', 'cam middle east', 'cam singapore', 'cam gift city'],
+    mainHref: '/about-us',
+    links: [
+      { label: 'awards & accolades', href: '/about-us/awards-accolades' },
+      { label: 'press release', href: '/about-us/press-release' },
+      { label: 'cam in news', href: '/about-us/cam-in-news' },
+      { label: 'cam middle east', href: '/about-us/cam-middle-east' },
+      { label: 'cam singapore', href: '/about-us/cam-singapore' },
+      { label: 'cam gift city', href: '/about-us/cam-gift-city' }
+    ],
   },
   {
     label: 'careers',
     panelId: 'careers',
-    links: ['view opportunities'],
+    links: [{ label: 'view opportunities', href: '/careers' }],
   },
   {
     label: 'contact us',
     panelId: 'contact-us',
-    links: ['get in touch'],
+    links: [{ label: 'get in touch', href: '/contactus' }],
   },
 ];
 
@@ -239,12 +267,27 @@ export default function FullscreenMenu({ isOpen, onCloseAction }: Props) {
           {/* Other panels */}
           {activePanel !== 'expertise' && activeItem && (
             <div>
-              <h3 className="text-[#C15F3C] text-lg font-semibold lowercase mb-6">{activeItem.label}</h3>
+              <div className="flex items-center gap-4 mb-6">
+                <h3 className="text-[#C15F3C] text-lg font-semibold lowercase">{activeItem.label}</h3>
+                {activeItem.mainHref && (
+                  <Link 
+                    href={activeItem.mainHref} 
+                    onClick={onCloseAction}
+                    className="text-[11px] uppercase bg-[#C15F3C] text-white px-2 py-0.5 rounded-sm hover:bg-[#B1ADA1] transition-colors"
+                  >
+                    view page
+                  </Link>
+                )}
+              </div>
               <ul className="flex flex-col gap-3">
                 {activeItem.links.map((link) => (
-                  <li key={link}>
-                    <Link href="#" className="lowercase text-[13px] font-semibold text-[#555] hover:text-[#C15F3C] transition-colors">
-                      {link}
+                  <li key={link.label}>
+                    <Link 
+                      href={link.href} 
+                      onClick={onCloseAction}
+                      className="lowercase text-[13px] font-semibold text-[#555] hover:text-[#C15F3C] transition-colors"
+                    >
+                      {link.label}
                     </Link>
                   </li>
                 ))}

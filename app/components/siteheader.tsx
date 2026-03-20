@@ -28,35 +28,38 @@ const navItems: NavItem[] = [
   },
   {
     label: 'innovation',
+    href: '/innovation',
     dropdown: [
-      { label: 'legaltech & als', href: '#' },
-      { label: 'culture of innovation', href: '#' },
-      { label: 'vichaar', href: '#' },
-      { label: 'prarambh', href: '#' },
-      { label: 'legaltech education', href: '#' },
+      { label: 'legaltech & als', href: '/innovation/legaltech-als' },
+      { label: 'culture of innovation', href: '/innovation/culture-of-innovation' },
+      { label: 'vichaar', href: '/innovation/vichaar' },
+      { label: 'prarambh', href: '/innovation/prarambh' },
+      { label: 'legaltech education', href: '/innovation/legaltech-education' },
     ],
   },
   {
     label: 'thought leadership',
+    href: '/thought-leadership',
     dropdown: [
-      { label: 'cam publications', href: '#' },
-      { label: 'the new labour codes', href: '#' },
-      { label: 'newsletters', href: '#' },
-      { label: 'blogs', href: '#' },
-      { label: 'videos', href: '#' },
-      { label: 'published articles', href: '#' },
-      { label: 'podcasts', href: '#' },
+      { label: 'cam publications', href: '/thought-leadership/cam-publications' },
+      { label: 'the new labour codes', href: '/thought-leadership/new-labour-codes' },
+      { label: 'newsletters', href: '/thought-leadership/newsletters' },
+      { label: 'blogs', href: '/thought-leadership/blogs' },
+      { label: 'videos', href: '/thought-leadership/videos' },
+      { label: 'published articles', href: '/thought-leadership/published-articles' },
+      { label: 'podcasts', href: '/thought-leadership/podcasts' },
     ],
   },
   {
     label: 'about us',
+    href: '/about-us',
     dropdown: [
-      { label: 'awards & accolades', href: '#' },
-      { label: 'press release', href: '#' },
-      { label: 'cam in news', href: '#' },
-      { label: 'cam middle east', href: '#' },
-      { label: 'cam singapore', href: '#' },
-      { label: 'cam gift city', href: '#' },
+      { label: 'awards & accolades', href: '/about-us/awards-accolades' },
+      { label: 'press release', href: '/about-us/press-release' },
+      { label: 'cam in news', href: '/about-us/cam-in-news' },
+      { label: 'cam middle east', href: '/about-us/cam-middle-east' },
+      { label: 'cam singapore', href: '/about-us/cam-singapore' },
+      { label: 'cam gift city', href: '/about-us/cam-gift-city' },
     ],
   },
   { label: 'careers', href: './careers' },
@@ -69,7 +72,7 @@ export default function SiteHeader() {
   return (
     <>
       <header className="bg-[#F4F3EE] border-b border-[#B1ADA1]/30 relative z-1000 px-6 lg:px-10">
-        <div className="max-w-7xl mx-auto py-5 flex items-center justify-center gap-8 lg:gap-14">
+        <div className="max-w-7xl mx-auto py-5 flex items-center justify-start gap-8 lg:gap-14">
 
           {/* Hamburger */}
           <button
