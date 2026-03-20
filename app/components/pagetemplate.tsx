@@ -48,7 +48,7 @@ export default function PageTemplate({ title, subtitle, category, breadcrumb, sh
 
       {/* 3. Title Ribbon */}
       <div className="w-full bg-[#C15F3C] text-white py-10 px-6 lg:px-24">
-        <div className="max-w-[1400px] mx-auto">
+        <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl md:text-5xl font-bold tracking-tight">
             {title}
           </h1>
@@ -60,7 +60,7 @@ export default function PageTemplate({ title, subtitle, category, breadcrumb, sh
 
       {/* 4. Main Two-Column Structure */}
       <div className="w-full bg-white text-black py-16 px-6 lg:px-24">
-        <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
           
           {/* LEFT COLUMN (Main Content) - full width if fullWidth=true */}
           <main className={fullWidth ? 'lg:col-span-12 space-y-12' : 'lg:col-span-8 space-y-12'}>
@@ -148,7 +148,7 @@ export default function PageTemplate({ title, subtitle, category, breadcrumb, sh
                 </div>
 
                 <div className="pt-2">
-                  <button type="submit" className="bg-[#C15F3C] text-white px-8 py-3 text-sm font-semibold hover:bg-[#1a1a1a] transition-colors">
+                  <button type="submit" className="bg-[#C15F3C] text-white px-8 py-3 text-sm font-semibold hover:scale-105 transition-transform duration-300 shadow-md">
                     Submit
                   </button>
                 </div>
@@ -166,7 +166,7 @@ export default function PageTemplate({ title, subtitle, category, breadcrumb, sh
       {/* 5. Optional Bottom Section (e.g., Awards, wide lists) */}
       {bottomSection && (
         <div className="w-full bg-white text-black pb-20 px-6 lg:px-24">
-          <div className="max-w-[1400px] mx-auto">
+          <div className="max-w-6xl mx-auto">
             {bottomSection}
           </div>
         </div>

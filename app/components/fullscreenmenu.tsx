@@ -147,7 +147,7 @@ export default function FullscreenMenu({ isOpen, onCloseAction }: Props) {
                   onClick={() => setActivePanel(item.panelId)}
                   className={`w-full text-left px-10 py-3 lowercase text-base transition-all duration-200 border-l-4 ${activePanel === item.panelId
                     ? 'bg-[#B1ADA1]/50 text-[#C15F3C] font-semibold border-l-[#C15F3C]'
-                    : 'text-[#C15F3C] hover:bg-[#B1ADA1]/50 font-normal border-l-transparent'
+                    : 'text-[#C15F3C] hover:bg-[#B1ADA1]/30 hover:scale-105 transition-all'
                     }`}
                 >
                   {item.label}
@@ -175,7 +175,7 @@ export default function FullscreenMenu({ isOpen, onCloseAction }: Props) {
                 <ul className="flex flex-col gap-3">
                   {camCorporate.map((item) => (
                     <li key={item}>
-                      <Link href="#" className="lowercase text-[13px] font-semibold text-[#C15F3C] hover:bg-[#B1ADA1]/50 px-2 py-1 rounded-sm transition-all whitespace-nowrap">
+                      <Link href="#" className="lowercase text-[13px] font-semibold text-[#C15F3C] hover:bg-[#B1ADA1]/30 px-2 py-1 rounded-sm transition-all whitespace-nowrap">
                         {item}
                       </Link>
                     </li>
@@ -273,7 +273,7 @@ export default function FullscreenMenu({ isOpen, onCloseAction }: Props) {
                   <Link 
                     href={activeItem.mainHref} 
                     onClick={onCloseAction}
-                    className="text-[11px] uppercase bg-[#C15F3C] text-white px-2 py-0.5 rounded-sm hover:bg-[#B1ADA1] transition-colors"
+                    className="text-[11px] uppercase bg-[#C15F3C] text-white px-2 py-0.5 rounded-sm hover:bg-[#B1ADA1]/30 transition-colors"
                   >
                     view page
                   </Link>

@@ -41,31 +41,35 @@ const awardsFeatures = [
 
 export default function Awards() {
   return (
-    <div className="bg-[#F4F3EE] text-[#C15F3C] py-1 px-6 md:px-12 lg:px-24 text-center">
-      <h2 className="text-3xl font-medium mb-6">Awards & Accolades</h2>
-      <p className="mb-16 text-sm max-w-2xl mx-auto text-black">
-        We have been consistently recognised for our commitment to delivering excellence for our clients.
-      </p>
+    <div className="bg-pampas text-[#C15F3C] py-20 px-6 md:px-12 lg:px-20 text-center">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-3xl font-medium mb-6 uppercase tracking-tight text-[#C15F3C]">Awards & Accolades</h2>
+        <p className="mb-16 text-sm max-w-2xl mx-auto text-[#C15F3C] font-medium opacity-80">
+          We have been consistently recognised for our commitment to delivering excellence for our clients.
+        </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-        {awardsFeatures.map((award, index) => (
-          <div key={index} className="flex flex-col items-center group cursor-pointer hover:-translate-y-2 transition-transform duration-300">
-            <div className="w-24 h-24 rounded-full border-2 border-[#C15F3C] flex items-center justify-center mb-6 group-hover:bg-[#C15F3C] group-hover:text-[#F4F3EE] transition-colors duration-300 shadow-sm">
-              {award.icon}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+          {awardsFeatures.map((award, index) => (
+            <div key={index} className="flex flex-col items-center group cursor-default transition-all duration-300">
+              <div className="w-20 h-20 rounded-full border border-cloudy/40 flex items-center justify-center mb-6 bg-white text-[#C15F3C] group-hover:bg-[#C15F3C] group-hover:text-pampas group-hover:border-[#C15F3C] transition-all duration-500 shadow-sm">
+                <div className="scale-75">
+                  {award.icon}
+                </div>
+              </div>
+              <h3 className="text-base font-bold mb-2 leading-tight min-h-[3rem] flex items-center justify-center">
+                {award.title}
+              </h3>
+              <p className="text-[12px] text-[#C15F3C] opacity-70 font-medium">
+                {award.subtitle}
+              </p>
             </div>
-            <h3 className="text-lg font-bold mb-2 max-w-50">
-              {award.title}
-            </h3>
-            <p className="text-sm text-black">
-              {award.subtitle}
-            </p>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      <button className="mt-16 px-8 py-3 bg-[#C15F3C] text-[#F4F3EE] border-2 border-[#C15F3C] rounded text-sm font-semibold hover:bg-transparent hover:text-[#C15F3C] transition-colors shadow-sm">
-        View More
-      </button>
+        <button className="mt-16 px-10 py-3.5 bg-[#C15F3C] text-white border-2 border-[#C15F3C] rounded text-xs font-bold uppercase tracking-widest hover:scale-105 transition-all duration-300 shadow-md">
+          View All Recognitions
+        </button>
+      </div>
     </div>
   );
 }

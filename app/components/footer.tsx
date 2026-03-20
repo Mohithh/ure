@@ -9,7 +9,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#C15F3C] text-[#F4F3EE] py-16 px-6 md:px-12 lg:px-24">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Logo */}
           <div className="flex flex-col gap-4">
@@ -22,18 +22,18 @@ export default function Footer() {
           {/* Links 1 */}
           <div>
             <ul className="flex flex-col gap-4 text-sm font-semibold">
-              <li><a href="#" className="hover:opacity-70 transition-opacity">Expertise</a></li>
-              <li><a href="#" className="hover:opacity-70 transition-opacity">People</a></li>
-              <li><a href="#" className="hover:opacity-70 transition-opacity">Innovation</a></li>
-              <li><a href="#" className="hover:opacity-70 transition-opacity">Thought Leadership</a></li>
+              <li><a href="#" className="hover:scale-105 transition-all inline-block">Expertise</a></li>
+              <li><a href="#" className="hover:scale-105 transition-all inline-block">People</a></li>
+              <li><a href="#" className="hover:scale-105 transition-all inline-block">Innovation</a></li>
+              <li><a href="#" className="hover:scale-105 transition-all inline-block">Thought Leadership</a></li>
             </ul>
           </div>
           
           {/* Links 2 */}
           <div>
             <ul className="flex flex-col gap-4 text-sm font-semibold">
-              <li><a href="#" className="hover:opacity-70 transition-opacity">About Us</a></li>
-              <li><a href="/careers" className="hover:opacity-70 transition-opacity">Careers</a></li>
+              <li><a href="#" className="hover:scale-105 transition-all inline-block">About Us</a></li>
+              <li><a href="/careers" className="hover:scale-105 transition-all inline-block">Careers</a></li>
             </ul>
           </div>
           
@@ -46,7 +46,7 @@ export default function Footer() {
                 placeholder="Enter your email ID" 
                 className="px-4 py-2 w-full text-black bg-[#F4F3EE] outline-none"
               />
-              <button className="bg-[#1a1a1a] text-[#F4F3EE] px-4 py-2 font-bold hover:bg-black transition-colors">
+              <button className="bg-black text-[#F4F3EE] px-4 py-2 font-bold hover:scale-105 transition-transform shadow-md">
                 Subscribe
               </button>
             </div>

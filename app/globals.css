@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@theme {
+  --color-pampas: #F4F3EE;
+  --color-crail: #C15F3C;
+  --color-cloudy: #B1ADA1;
+}
+
+@layer base {
+  html, body {
+    @apply antialiased overflow-x-hidden scroll-smooth;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-crail font-medium;
+  }
+
+  p {
+    @apply text-black leading-relaxed;
+  }
+}
