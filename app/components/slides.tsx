@@ -2,39 +2,62 @@
 
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 const slides = [
   {
     id: 1,
-    title: "Decoding India's\nNew Labour Codes",
-    subtitle: "Access expert commentary, FAQs, and actionable insights.",
-    image: "/slider1.png",
+
+    image: "/home1.jpeg",
+    link: "/new-labour-codes",
   },
   {
     id: 2,
-    title: "Corporate Law Insights",
-    subtitle: "Stay ahead with legal updates and expert analysis.",
-    image: "/slider2.png",
+
+    image: "/home2.jpeg",
+    link: "/expertise",
   },
   {
     id: 3,
-    title: "Future of Legal Tech",
-    subtitle: "Innovation shaping tomorrow's legal ecosystem.",
-    image: "/slider3.png",
+
+    image: "/home6.jpeg",
+    link: "/legaltech-als",
   },
+  {
+    id: 4,
+
+    image: "/home3.jpeg",
+    link: "/legaltech-als",
+  },
+  {
+    id: 5,
+
+    image: "/home4.jpeg",
+    link: "/legaltech-als",
+  },
+  {
+    id: 6,
+
+    image: "/home5.jpeg",
+    link: "/legaltech-als",
+  },
+
 ];
 
 export default function Slides() {
   const [current, setCurrent] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   // AUTO SLIDE
   useEffect(() => {
+    if (isPaused) return;
+
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isPaused]);
 
   const nextSlide = () => {
     setCurrent((prev) => (prev + 1) % slides.length);
@@ -47,7 +70,11 @@ export default function Slides() {
   return (
     <div className="w-full">
       {/* ================= HERO SLIDER ================= */}
-      <div className="relative w-full h-[500px] overflow-hidden">
+      <div
+        className="relative w-full h-[500px] overflow-hidden"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
         {/* SLIDER TRACK */}
         <div
           className="flex h-full transition-transform duration-700 ease-in-out"
@@ -65,26 +92,15 @@ export default function Slides() {
                 }}
               >
                 {/* OVERLAY */}
-                <div className="w-full h-full bg-gradient-to-r from-[#6a1b5d]/90 to-[#1a1a40]/70 flex items-center">
-                  <div className="max-w-6xl px-10 text-white">
-                    <div className="flex items-start gap-4">
-                      {/* ORANGE BAR */}
-                      <div className="w-2 h-20 bg-[#e87722] rounded"></div>
-
-                      {/* TEXT */}
-                      <div>
-                        <h1 className="text-4xl md:text-5xl font-bold whitespace-pre-line leading-tight">
-                          {slide.title}
-                        </h1>
-
-                        <p className="mt-4 text-lg opacity-90">
-                          {slide.subtitle}
-                        </p>
-
-                        <button className="mt-6 border border-white px-6 py-2 rounded-full hover:bg-white hover:text-black transition">
+                <div className="w-full h-full bg-transparent flex items-center">
+                  <div className="max-w-6xl px-10 text-white ml-24">
+                    {/* TEXT */}
+                    <div>
+                      <Link href={slide.link}>
+                        <button className="mt-6 bg-[#C15F3C] text-white px-10 py-3 rounded text-xs font-bold uppercase tracking-widest hover:scale-105 transition-all shadow-md">
                           Read More
                         </button>
-                      </div>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -118,16 +134,15 @@ export default function Slides() {
               key={slide.id}
               onClick={() => setCurrent(index)}
               aria-label={`Go to slide ${slide.id}`}
-              className={`h-1 w-10 cursor-pointer transition ${
-                current === index ? "bg-[#e87722]" : "bg-white/50"
-              }`}
+              className={`h-1 w-10 cursor-pointer transition ${current === index ? "bg-[#e87722]" : "bg-white/50"
+                }`}
             />
           ))}
         </div>
       </div>
 
       {/* ================= ABOUT + PEOPLE ================= */}
-      
+
     </div>
   );
 }
