@@ -1,4 +1,5 @@
 import PageTemplate from '@/app/components/pagetemplate';
+import Image from 'next/image';
 
 export default function InnovationPage() {
   return (
@@ -6,6 +7,28 @@ export default function InnovationPage() {
       title="Innovation" 
       category="Innovation"
       subtitle="Refining the practice of law through a culture of relentless curiosity and technological excellence."
+      heroImage="/images/innovation-hero.jpg"
+      children={
+        <div className="space-y-12">
+          <div className="space-y-4">
+            <p className="text-lg text-black leading-relaxed">
+              At URE Legal, innovation is not just a buzzword—it's embedded in our DNA. We continuously refine the practice of law through relentless curiosity and technological excellence, ensuring we remain at the forefront of legal services.
+            </p>
+            <p className="text-lg text-black leading-relaxed">
+              Our commitment to innovation has been recognized globally, with numerous awards reflecting our dedication to transforming legal practice through technology and forward-thinking strategies.
+            </p>
+          </div>
+
+          {/* Innovation Image Section */}
+          <div className="w-full h-[500px] bg-[#F4F3EE] border border-dashed border-[#B1ADA1]/50 flex flex-col items-center justify-center mt-12 group hover:bg-gray-100 transition-colors rounded overflow-hidden">
+            <img 
+              src="/images/innovation-image.jpg" 
+              alt="Innovation" 
+              className="w-full h-full object-cover rounded"
+            />
+          </div>
+        </div>
+      }
       bottomSection={
         <div className="space-y-6">
           <h2 className="text-4xl font-normal text-[#1a1a1a]">Innovation Awards</h2>

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function Footer() {
@@ -13,10 +14,17 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Logo */}
           <div className="flex flex-col gap-4">
-             <div className="bg-white p-2 rounded inline-block w-max">
-               <Image src="/logo.png" alt="URE Legal Advocates" width={64} height={64} className="h-16 w-auto object-contain" />
-             </div>
-             <p className="opacity-80 text-sm mt-4">Top Law Firm in India</p>
+             <Link href="/" className="flex items-center gap-2 w-max group">
+               <div className="w-12 h-12 rounded-full bg-[#F4F3EE] border-2 border-[#F4F3EE]/30 flex items-center justify-center text-[#C15F3C] text-xs font-bold transition-transform group-hover:scale-105" style={{ fontFamily: "'EB Garamond', serif" }}>
+                 URE
+               </div>
+               <div className="flex flex-col">
+                 <span className="text-[#F4F3EE] text-[12px] font-bold uppercase tracking-tight leading-none" style={{ fontFamily: "'Open Sans', sans-serif" }}>
+                   URE <span className="lowercase font-normal text-[10px]">legal advocates</span>
+                 </span>
+               </div>
+             </Link>
+             <p className="opacity-80 text-sm mt-2">Top Law Firm in India</p>
           </div>
           
           {/* Links 1 */}

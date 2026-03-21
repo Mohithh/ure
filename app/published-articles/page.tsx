@@ -77,7 +77,8 @@ export default function PublishedArticlesPage() {
       title="Published Articles"
       subtitle="Stay informed about URE Legal's view"
       category="Thought Leadership"
-      showHero={false}
+      heroImage="/images/thought-leadership-hero.jpg"
+      showHero={true}
       showContactForm={false}
       fullWidth={true}
     >

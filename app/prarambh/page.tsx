@@ -74,6 +74,7 @@ export default function LaunchpadPage() {
       title="Prarambh" 
       subtitle="URE Legal's specialized incubator guiding legaltech startups as they shape the future of modern law."
       category="Innovation"
+      heroImage="/images/innovation-hero.jpg"
       showHero={true}
       sidebar={sidebarContent}
     >
@@ -97,6 +98,15 @@ export default function LaunchpadPage() {
             </p>
           </div>
         </section>
+
+        {/* Innovation Image Section */}
+        <div className="w-full h-[500px] bg-[#F4F3EE] border border-dashed border-[#B1ADA1]/50 flex flex-col items-center justify-center mt-12 group hover:bg-gray-100 transition-colors rounded overflow-hidden">
+          <img 
+            src="/images/innovation-image.jpg" 
+            alt="Innovation" 
+            className="w-full h-full object-cover rounded"
+          />
+        </div>
 
         {/* Startups Grid Section */}
         <section className="pt-12 border-t border-[#B1ADA1]/30">

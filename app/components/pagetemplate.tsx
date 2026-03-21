@@ -17,7 +17,7 @@ type PageTemplateProps = {
   bottomSection?: React.ReactNode;
 };
 
-export default function PageTemplate({ title, subtitle, category, breadcrumb, showHero = true, showContactForm = true, fullWidth = false, sidebar, children, bottomSection }: PageTemplateProps) {
+export default function PageTemplate({ title, subtitle, category, breadcrumb, heroImage, showHero = true, showContactForm = true, fullWidth = false, sidebar, children, bottomSection }: PageTemplateProps) {
   return (
     <div className="bg-white min-h-screen flex flex-col font-sans text-black">
       
@@ -38,11 +38,21 @@ export default function PageTemplate({ title, subtitle, category, breadcrumb, sh
 
       {/* 2. Full Width Hero Image Area */}
       {showHero && (
-        <div className="w-full h-[300px] md:h-[450px] bg-gray-200 flex items-center justify-center relative group overflow-hidden">
-          <div className="absolute inset-0 pattern-dots text-gray-300 opacity-50"></div>
-          <span className="text-gray-500 font-bold uppercase tracking-widest text-sm relative z-10 group-hover:text-[#C15F3C] transition-colors bg-white/50 px-4 py-2 rounded">
-            Hero Image Placement Area
-          </span>
+        <div className="w-full h-[300px] md:h-[450px] bg-gray-200 relative group overflow-hidden">
+          {heroImage ? (
+            <img
+              src={heroImage}
+              alt={title}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="absolute inset-0 pattern-dots text-gray-300 opacity-50"></div>
+              <span className="text-gray-500 font-bold uppercase tracking-widest text-sm relative z-10 group-hover:text-[#C15F3C] transition-colors bg-white/50 px-4 py-2 rounded">
+                Hero Image Placement Area
+              </span>
+            </div>
+          )}
         </div>
       )}
 

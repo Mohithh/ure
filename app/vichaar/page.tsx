@@ -44,6 +44,7 @@ export default function VichaarPage() {
     <PageTemplate 
       title="Vichaar" 
       category="Innovation"
+      heroImage="/images/innovation-hero.jpg"
       showHero={true}
     >
       <div className="space-y-12 pb-16">
@@ -58,12 +59,22 @@ export default function VichaarPage() {
           Since our inception, the following winning ideas have been implemented.
         </p>
 
-        {/* The Tree Image Placeholder exactly mimicking the user screenshot size/spacing */}
-        <div className="w-full h-[600px] border border-dashed border-[#B1ADA1]/50 bg-[#F4F3EE]/50 flex items-center justify-center relative mt-16 mb-16">
-           <div className="text-center space-y-4">
-              <span className="text-[#C15F3C]/50 block text-6xl">🌳</span>
-              <span className="text-gray-400 font-bold uppercase tracking-widest text-sm">Tree Graphic Placement Area</span>
-           </div>
+        {/* Innovation Image Section */}
+        <div className="w-full h-[500px] bg-[#F4F3EE] border border-dashed border-[#B1ADA1]/50 flex flex-col items-center justify-center mt-12 group hover:bg-gray-100 transition-colors rounded overflow-hidden">
+          <img 
+            src="/images/innovation-image.jpg" 
+            alt="Innovation" 
+            className="w-full h-full object-cover rounded"
+          />
+        </div>
+
+        {/* The Tree Image Section */}
+        <div className="w-full h-[600px] border border-dashed border-[#B1ADA1]/50 bg-[#F4F3EE]/50 flex items-center justify-center relative mt-16 mb-16 rounded overflow-hidden">
+          <img 
+            src="/images/innovation-image.jpg" 
+            alt="Innovation Tree" 
+            className="w-full h-full object-cover"
+          />
         </div>
 
         {/* 2-Column Cards Grid matching screenshot */}

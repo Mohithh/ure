@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import FullscreenMenu from './fullscreenmenu';
 
@@ -70,11 +71,43 @@ const navItems: NavItem[] = [
 
 export default function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname() || '/';
+
+  const suppressedPrefixes = [
+    '/innovation',
+    '/legaltech-als',
+    '/culture-of-innovation',
+    '/vichaar',
+    '/prarambh',
+    '/legaltech-education',
+    '/thought-leadership',
+    '/about-us',
+    '/awards-accolades',
+    '/press-release',
+    '/cam-in-news',
+    '/cam-middle-east',
+    '/cam-singapore',
+    '/cam-gift-city',
+    '/cam-publications',
+    '/podcasts',
+    '/blogs',
+    '/videos',
+    '/published-articles',
+    '/newsletters',
+    '/new-labour-codes',
+  ];
+
+  const hideHeaderIcons = suppressedPrefixes.some((p) => {
+    if (p.startsWith('/cam-')) {
+      return pathname.startsWith('/cam-');
+    }
+    return pathname === p || pathname.startsWith(p + '/') || pathname.startsWith(p);
+  });
 
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-[#F4F3EE] border-b border-cloudy/30 px-6 md:px-12 lg:px-20">
-        <div className="max-w-6xl w-full mx-auto py-5 flex items-center justify-between">
+        <div className="max-w-6xl w-full mx-auto py-7 flex items-center justify-between">
 
           {/* Left: Hamburger + Logo */}
           <div className="flex items-center gap-4 lg:gap-8 shrink-0">
@@ -142,6 +175,7 @@ export default function SiteHeader() {
 
           {/* Right: Social Icons + Search */}
           <div className="flex items-center gap-2 shrink-0">
+            {!hideHeaderIcons && (
             <div className="hidden lg:flex items-center gap-2">
               {/* LinkedIn */}
               <Link href="#" className="text-[#C15F3C] p-2 hover:scale-110 transition-all duration-300" aria-label="LinkedIn">
@@ -168,6 +202,7 @@ export default function SiteHeader() {
                 </svg>
               </Link>
             </div>
+            )}
             {/* Search */}
             <Link href="#" className="text-[#C15F3C] p-2 hover:scale-110 transition-all duration-300" aria-label="Search">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

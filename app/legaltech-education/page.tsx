@@ -5,6 +5,7 @@ export default function LegalTechEducationPage() {
     <PageTemplate 
       title="Education: Legaltech, Innovation and Design Thinking" 
       category="Innovation"
+      heroImage="/images/innovation-hero.jpg"
       showHero={true}
     >
       <div className="space-y-16 pb-20">
@@ -17,6 +18,15 @@ export default function LegalTechEducationPage() {
           <p className="text-lg text-gray-700 leading-relaxed">
             By introducing modern Legaltech education to the firm's lawyers and law students alike, URE Legal is not only modernising Legal Service within the firm today, but also helping create a generation of lawyers ready for the challenges of tomorrow.
           </p>
+
+          {/* Innovation Image Section */}
+          <div className="w-full h-[400px] bg-[#F4F3EE] border border-dashed border-[#B1ADA1]/50 flex flex-col items-center justify-center mt-8 group hover:bg-gray-100 transition-colors rounded overflow-hidden">
+            <img 
+              src="/images/innovation-image.jpg" 
+              alt="Innovation" 
+              className="w-full h-full object-cover rounded"
+            />
+          </div>
         </section>
 
         {/* Program 1: ULIC */}

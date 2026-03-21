@@ -97,7 +97,7 @@ export default function Slides() {
                     {/* TEXT */}
                     <div>
                       <Link href={slide.link}>
-                        <button className="mt-6 bg-[#C15F3C] text-white px-10 py-3 rounded text-xs font-bold uppercase tracking-widest hover:scale-105 transition-all shadow-md">
+                        <button className="mt-90 bg-[#C15F3C] text-white px-10 py-3 rounded text-xs font-bold uppercase tracking-widest hover:scale-105 transition-all shadow-md">
                           Read More
                         </button>
                       </Link>

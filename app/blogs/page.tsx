@@ -66,6 +66,7 @@ export default function BlogsPage() {
       title="Blogs"
       subtitle="A URE Legal Thought Leadership Initiative"
       category="Thought Leadership"
+      heroImage="/images/thought-leadership-hero.jpg"
       showHero={true}
       showContactForm={false}
       sidebar={sidebarContent}

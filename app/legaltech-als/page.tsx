@@ -5,6 +5,7 @@ export default function LegalTechALSPage() {
     <PageTemplate 
       title="URE Legaltech and Innovation Certification (ULIC)" 
       category="Innovation"
+      heroImage="/images/innovation-hero.jpg"
       showHero={true}
     >
       <div className="space-y-12 pb-16">
