@@ -1,28 +1,31 @@
+import Link from 'next/link';
 import React from 'react';
 
 export default function Careers() {
   return (
     <div className="bg-white text-[#C15F3C] py-20 px-6 md:px-12 lg:px-20">
-      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-20">
+      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-20 ">
         {/* Left Side: Careers */}
-        <div className="flex-1 lg:max-w-sm">
+        <div className="flex-1 lg:max-w-sm justify-between">
           <h2 className="text-3xl font-medium mb-8 uppercase tracking-tight text-[#C15F3C]">Careers</h2>
           <p className="leading-relaxed mb-10 font-medium text-sm text-[#C15F3C] opacity-80">
             We are committed to shaping the finest lawyers for a just world. As a full-service law firm, you will have opportunities and exposure to various Practices and Sectors, learning from the finest lawyers in the country as you work on challenging, sophisticated, and complex legal problems.
           </p>
-          <div className="flex flex-col gap-6 mt-6">
-            <a href="#" className="font-bold underline text-xs uppercase tracking-widest hover:scale-105 transition-transform duration-300 inline-flex items-center gap-2 text-[#C15F3C]">
+          <div className="flex flex-col gap-6 mt-6 ">
+            {/* <Link href="/careers" className="no-underline hover:underline font-bold text-xs uppercase tracking-widest hover:scale-105 transition-transform duration-300 inline-flex items-center gap-2 text-[#C15F3C]">
               Life at cam
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
               </svg>
-            </a>
-            <a href="#" className="font-bold underline text-xs uppercase tracking-widest hover:scale-105 transition-transform duration-300 inline-flex items-center gap-2 text-[#C15F3C]">
+            </Link> */}
+            <div className='flex justify-center align-center'>
+            <Link href="/careers" className=" no-underline hover:underline font-bold text-xs uppercase tracking-widest hover:scale-105 transition-transform duration-300 inline-flex items-center gap-2 text-[#C15F3C]">
               Search for Opportunities
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
               </svg>
-            </a>
+            </Link>
+            </div>
           </div>
         </div>
 

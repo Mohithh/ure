@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from "next/link";
 
 const awardsFeatures = [
   {
@@ -65,10 +66,14 @@ export default function Awards() {
             </div>
           ))}
         </div>
-
-        <button className="mt-16 px-10 py-3.5 bg-[#C15F3C] text-white border-2 border-[#C15F3C] rounded text-xs font-bold uppercase tracking-widest hover:scale-105 transition-all duration-300 shadow-md">
-          View All Recognitions
-        </button>
+        <div className='mt-8'>
+         <Link
+              href="/awards-accolades"
+              className="bg-[#C15F3C] text-white px-8 py-3 rounded text-sm font-bold border-2 border-[#C15F3C] hover:scale-105 transition-transform duration-300 shadow-md"
+            >
+              View All Recognitions
+            </Link>
+         </div>
       </div>
     </div>
   );

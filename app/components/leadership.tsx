@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React, { useState } from 'react';
 
 const videos = [
@@ -89,9 +90,13 @@ export default function Leadership() {
         </div>
         
         <div className="text-center mt-16">
-           <button className="px-10 py-3.5 bg-[#C15F3C] text-white border-2 border-[#C15F3C] rounded text-xs font-bold uppercase tracking-widest hover:scale-105 transition-all duration-300 shadow-md">
-             View All Insights
-           </button>
+          <Link 
+          href="/thought-leadership"
+          className="px-10 py-3.5 bg-[#C15F3C] text-white border-2 border-[#C15F3C] rounded text-xs font-bold uppercase tracking-widest hover:scale-105 transition-all duration-300 shadow-md"
+          >
+            View All Insights
+          </Link>
+          
         </div>
       </div>
     </div>
