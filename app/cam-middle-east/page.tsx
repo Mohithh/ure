@@ -1,6 +1,42 @@
+// app/cam-middle-east/page.tsx
 import PageTemplate from '@/app/components/pagetemplate';
 
-export default function CAMMiddleEastPage() {
+// Define the type for an offering item from the API
+interface ApiOffering {
+  name: string;
+  _state?: number;
+  _modified?: number;
+  _mby?: string;
+  _created?: number;
+  _cby?: string;
+  _id?: string;
+}
+
+// This is a Server Component, so we can fetch data directly
+async function getOfferingsData(): Promise<ApiOffering[]> {
+  try {
+    const res = await fetch('https://cms.urelegal.in/api/content/items/Offeringmiddleeast', {
+      cache: 'no-store', // Always get fresh data
+      // OR use: next: { revalidate: 3600 } for periodic updates
+    });
+    
+    if (!res.ok) {
+      throw new Error(`Failed to fetch offerings: ${res.status}`);
+    }
+    
+    const data = await res.json();
+    console.log('Fetched Middle East offerings:', data); // For debugging
+    return data;
+  } catch (error) {
+    console.error('Error fetching Middle East offerings data:', error);
+    return [];
+  }
+}
+
+export default async function CAMMiddleEastPage() {
+  // Fetch offerings data from API
+  const apiOfferings = await getOfferingsData();
+  
   const sidebar = (
     <div className="space-y-6">
       <div className="flex items-center gap-3 text-sm">
@@ -40,7 +76,7 @@ export default function CAMMiddleEastPage() {
             <strong>cam middle east</strong> is headquartered in the Abu Dhabi Global Market (ADGM). Our strategic location provides access to world-class infrastructure and competitive outreach in one of the most vibrant and high growth-potential markets globally, including in the neighbouring Emirate of Dubai as well.
           </p>
           <p>
-            cam middle east is fully integrated with CAM’s team in India, fostering cross-border and cross-practice collaboration. Our attorneys have a rich history of representing high-profile clients in complex transactions across energy, corporate transactions, M&A, and investment funds.
+            cam middle east is fully integrated with CAM's team in India, fostering cross-border and cross-practice collaboration. Our attorneys have a rich history of representing high-profile clients in complex transactions across energy, corporate transactions, M&A, and investment funds.
           </p>
         </div>
 
@@ -49,26 +85,27 @@ export default function CAMMiddleEastPage() {
 
           <div className="relative">
             <div className="border-4 border-[#4a1532] p-8">
-              <ul className="space-y-3 text-sm text-[#1a1a1a] list-none">
-                <li>Banking & Finance</li>
-                <li>Capital Markets</li>
-                <li>Corporate & Outbound Advisory</li>
-                <li>Cross-border Insolvency</li>
-                <li>Fintech</li>
-                <li>Infrastructure and Project Finance</li>
-                <li>International Arbitration</li>
-                <li>Investment Funds</li>
-                <li>Mergers & Acquisitions</li>
-                <li>Private Client</li>
-                <li>Private Equity</li>
-                <li>Taxation</li>
-              </ul>
+              {apiOfferings.length > 0 ? (
+                <ul className="space-y-3 text-sm text-[#1a1a1a] list-none">
+                  {apiOfferings.map((offering, index) => (
+                    <li key={offering._id || index}>
+                      {offering.name}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-500 text-center py-8">
+                  No offerings data available at the moment.
+                </p>
+              )}
             </div>
             <div className="absolute -right-6 -top-6 w-8 h-12 bg-[#D4A464]" />
           </div>
         </div>
 
-        <p className="text-sm text-gray-700">CAM Middle East resident partners are <a className="text-[#C15F3C]">Subhojit Sadhu</a> and <a className="text-[#C15F3C]">Himanshu Chahar</a>.</p>
+        <p className="text-sm text-gray-700">
+          CAM Middle East resident partners are <a href="#" className="text-[#C15F3C] hover:underline">Subhojit Sadhu</a> and <a href="#" className="text-[#C15F3C] hover:underline">Himanshu Chahar</a>.
+        </p>
       </div>
     </PageTemplate>
   );

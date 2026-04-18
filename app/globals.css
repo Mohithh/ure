@@ -1,10 +1,6 @@
-@import "tailwindcss";
-
-@theme {
-  --color-pampas: #F4F3EE;
-  --color-crail: #C15F3C;
-  --color-cloudy: #B1ADA1;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   html, body {

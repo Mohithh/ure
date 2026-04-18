@@ -1,76 +1,144 @@
+// app/published-articles/page.tsx
 'use client';
 import PageTemplate from '@/app/components/pagetemplate';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const recentArticles = [
-  {
-    title: "Admission Enquiry to Everyday Classroom Data: Impact of New Data Protection Law On Education Sector",
-    desc: "The digital journey of every student begins the moment they submit an admission enquiry. Under India's new Digital Personal Data Protection (DPDP) framework, every touchpoint from recruitment to daily classroom activity now demands a rigorous standard of compliance and transparency. In their article, our Partner (Head – Media, Education & Gaming) Aarushi Jain, Partner (Head – Digital Disruption) Huzefa Tavawalla and Associate Tannvi R discuss the structural shifts required for schools and universities to stay compliant.",
-    source: "NDTV profit",
-    date: "26th February 2026"
-  },
-  {
-    title: "FDI Ambiguity in India's evolving space data regime",
-    desc: "India's space sector is at a pivotal juncture. While the liberalised Foreign Direct Investment (FDI) policy aims to catapult the private space economy, the intersection with evolving data sovereignty and localization mandates presents a complex regulatory landscape for global investors. In their article published by our Partner (Head – Digital Disruption) Huzefa Tavawalla and Associate Jvalita Krishan analyze the nuances of India's space-data regime.",
-    source: "Moneycontrol",
-    date: "25th February 2026"
-  },
-  {
-    title: "Stamp Duty on Parent-Subsidiary Arrangements: Implications in Delhi and Haryana",
-    desc: "In the evolving landscape of corporate restructuring, selecting the right jurisdiction for a merger can result in cost differentials running into crores. In their article, our Partner Shika Tandon, Principal Associate Zaid Drabu and Associate Shubham Mittal discuss the critical stamp duty implications for parent-subsidiary mergers in Delhi and Haryana.",
-    source: "SCC Online",
-    date: "25th February 2026"
-  },
-  {
-    title: "An Introduction to Private Wealth Law",
-    desc: "Read the India chapter of 'An Introduction to Private Wealth Law' authored by our Partner (Co-Head – Private Client) Radhika Gaggar, Partner Shaishavi Kadakia and Principal Associate Pratyush Khanna published by Chambers and Partners. This guide covers India's 2025 wealth trends: strong IPO activity, rising regional wealth, growth of family offices, evolving philanthropy, and key regulatory and tax developments including the UCC, GIFT City, and the new Income-tax Act.",
-    source: "Chambers & Partners",
-    date: "12th December 2025"
-  },
-  {
-    title: "Can my sister claim assets bequeathed to my late mother in father's will?",
-    desc: "Our Partner Shaishavi Kadakia and Senior Associate Sachi Shah in a Q&A published by Mint discuss how a sibling can claim lapsed assets under a will as a residuary legatee.",
-    source: "Live Mint",
-    date: "10th December 2025"
-  },
-  {
-    title: "As regulatory changes step up lending competition in India, private credit could prove its mettle and thrive",
-    desc: "Our Senior Partner L. Viswanathan and Partner Hariharan Kumar in their article published in Mint discuss how private credit in India continues to grow strongly and emerge as a major financing option, despite new RBI policies intensifying lending competition.",
-    source: "Live Mint",
-    date: "10th December 2025"
+// Define the type for an article from the API
+interface ApiArticle {
+  title: string;
+  des: string;
+  dateinfo: string;
+  date: string;
+  _state?: number;
+  _modified?: number;
+  _mby?: string;
+  _created?: number;
+  _cby?: string;
+  _id?: string;
+}
+
+// Define the type for display
+interface Article {
+  title: string;
+  desc: string;
+  source: string;
+  date: string;
+  year: string;
+}
+
+// Helper function to parse dateinfo into source and date
+function parseDateInfo(dateinfo: string): { source: string; date: string } {
+  // Split by last space to separate source and date
+  const lastSpaceIndex = dateinfo.lastIndexOf(' ');
+  if (lastSpaceIndex === -1) {
+    return { source: dateinfo, date: '' };
   }
-];
+  
+  const source = dateinfo.substring(0, lastSpaceIndex);
+  const date = dateinfo.substring(lastSpaceIndex + 1);
+  
+  return { source, date };
+}
 
-const yearArticles = [
-  {
-    title: "The Future of Digital Banking in India: A Regulatory Perspective",
-    desc: "As the financial landscape shifts towards a more digital-first approach, the RBI has introduced several new measures to ensure security and consumer protection. This article explores the implications for neo-banks and traditional institutions alike.",
-    source: "Financial Express",
-    date: "15th November 2025"
-  },
-  {
-    title: "Navigating Cross-Border Mergers: Key Legal Considerations",
-    desc: "Cross-border M&A activity has seen a significant uptick. Our experts break down the complex tax and regulatory hurdles that companies must navigate when expanding their global footprint through acquisitions.",
-    source: "Economic Times",
-    date: "3rd October 2025"
-  },
-  {
-    title: "ESG Reporting: Moving from Voluntary to Mandatory",
-    desc: "With the SEBI's new BRSR Core framework, ESG reporting is no longer just a trend. We discuss how companies can prepare for the new disclosure requirements and the impact on investor relations.",
-    source: "Business Standard",
-    date: "20th September 2025"
-  }
-];
-
-const yearOptions = ['2025', '2024', '2023', '2022'];
+// Helper function to get unique years from articles
+function getUniqueYears(articles: Article[]): string[] {
+  const years = [...new Set(articles.map(article => article.year))];
+  return years.sort((a, b) => b.localeCompare(a)); // Sort descending
+}
 
 export default function PublishedArticlesPage() {
+  const [allArticles, setAllArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [selectedYear, setSelectedYear] = useState('2025');
+  const [selectedYear, setSelectedYear] = useState<string>('All');
+  const [visibleRecentCount, setVisibleRecentCount] = useState(6);
+  const [visibleYearCount, setVisibleYearCount] = useState(6);
 
-  const filteredRecent = recentArticles.filter(a =>
-    a.title.toLowerCase().includes(search.toLowerCase())
-  );
+  // Fetch articles data from API
+  useEffect(() => {
+    async function fetchArticles() {
+      try {
+        const res = await fetch('https://cms.urelegal.in/api/content/items/ThoughtLeadershipPublishedArticles', {
+          cache: 'no-store'
+        });
+        
+        if (!res.ok) {
+          throw new Error(`Failed to fetch articles: ${res.status}`);
+        }
+        
+        const data: ApiArticle[] = await res.json();
+        
+        // Transform API data to match component's format
+        const transformedData: Article[] = data.map((item) => {
+          const { source, date } = parseDateInfo(item.dateinfo || '');
+          return {
+            title: item.title || '',
+            desc: item.des || '',
+            source: source,
+            date: date,
+            year: item.date || new Date().getFullYear().toString()
+          };
+        });
+        
+        setAllArticles(transformedData);
+      } catch (error) {
+        console.error('Error fetching articles:', error);
+        setAllArticles([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchArticles();
+  }, []);
+
+  // Get unique years for filter
+  const yearOptions = ['All', ...getUniqueYears(allArticles)];
+
+  // Filter articles based on search and year
+  const filteredArticles = allArticles.filter(article => {
+    const matchesSearch = article.title.toLowerCase().includes(search.toLowerCase()) ||
+                          article.desc.toLowerCase().includes(search.toLowerCase());
+    const matchesYear = selectedYear === 'All' || article.year === selectedYear;
+    return matchesSearch && matchesYear;
+  });
+
+  // Split articles into recent (first 6 by default) and rest
+  const recentArticles = filteredArticles.slice(0, visibleRecentCount);
+  const hasMoreRecent = filteredArticles.length > visibleRecentCount;
+
+  // Year-filtered articles (excluding the recent ones if needed)
+  const yearFilteredArticles = filteredArticles.slice(0, visibleYearCount);
+  const hasMoreYearArticles = filteredArticles.length > visibleYearCount;
+
+  const loadMoreRecent = () => {
+    setVisibleRecentCount(prev => prev + 6);
+  };
+
+  const loadMoreYear = () => {
+    setVisibleYearCount(prev => prev + 6);
+  };
+
+  if (loading) {
+    return (
+      <PageTemplate
+        title="Published Articles"
+        subtitle="Stay informed about URE Legal's view"
+        category="Thought Leadership"
+        heroImage="/images/thought-leadership-hero.jpg"
+        showHero={true}
+        showContactForm={false}
+        fullWidth={true}
+      >
+        <div className="flex justify-center items-center py-20">
+          <div className="text-center">
+            <div className="w-12 h-12 border-4 border-[#C15F3C] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading articles...</p>
+          </div>
+        </div>
+      </PageTemplate>
+    );
+  }
 
   return (
     <PageTemplate
@@ -107,22 +175,38 @@ export default function PublishedArticlesPage() {
             </div>
           </div>
 
-          {/* Recent Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredRecent.map((article, idx) => (
-              <ArticleCard key={idx} article={article} />
-            ))}
+          {/* Results Count */}
+          <div className="text-sm text-gray-500">
+            Showing {recentArticles.length} of {filteredArticles.length} articles
           </div>
 
-          {/* Load More Button */}
-          <div className="text-center pt-8">
-            <button className="bg-[#C15F3C] text-white px-14 py-3 font-semibold hover:bg-[#a0502f] transition-colors">
-              Load More
-            </button>
-          </div>
+          {/* Recent Grid - DYNAMIC from API */}
+          {recentArticles.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {recentArticles.map((article, idx) => (
+                <ArticleCard key={idx} article={article} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 text-gray-500">
+              No articles found matching your search criteria.
+            </div>
+          )}
+
+          {/* Load More Button for Recent */}
+          {hasMoreRecent && (
+            <div className="text-center pt-8">
+              <button 
+                onClick={loadMoreRecent}
+                className="bg-[#C15F3C] text-white px-14 py-3 font-semibold hover:bg-[#a0502f] transition-colors"
+              >
+                Load More
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Year Filter Section */}
+        {/* Year Filter Section - DYNAMIC from API */}
         <div className="space-y-8 pt-4 border-t border-[#B1ADA1]/20">
           <div className="max-w-[160px]">
             <select
@@ -134,19 +218,30 @@ export default function PublishedArticlesPage() {
             </select>
           </div>
 
-          {/* Grid for selected year */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {yearArticles.map((article, idx) => (
-              <ArticleCard key={idx} article={article} />
-            ))}
-          </div>
+          {/* Grid for selected year - DYNAMIC from API */}
+          {yearFilteredArticles.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {yearFilteredArticles.map((article, idx) => (
+                <ArticleCard key={idx} article={article} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 text-gray-500">
+              No articles found for {selectedYear !== 'All' ? selectedYear : 'selected year'}.
+            </div>
+          )}
 
           {/* Load More for year section */}
-          <div className="text-center pt-4">
-            <button className="bg-[#C15F3C] text-white px-14 py-3 font-semibold hover:bg-[#a0502f] transition-colors">
-              Load More
-            </button>
-          </div>
+          {hasMoreYearArticles && (
+            <div className="text-center pt-4">
+              <button 
+                onClick={loadMoreYear}
+                className="bg-[#C15F3C] text-white px-14 py-3 font-semibold hover:bg-[#a0502f] transition-colors"
+              >
+                Load More
+              </button>
+            </div>
+          )}
         </div>
 
       </div>
@@ -154,7 +249,7 @@ export default function PublishedArticlesPage() {
   );
 }
 
-function ArticleCard({ article }: { article: any }) {
+function ArticleCard({ article }: { article: Article }) {
   return (
     <div className="flex flex-col group cursor-pointer border border-[#B1ADA1]/20 hover:shadow-md transition-shadow">
       {/* Image Placeholder */}
@@ -173,7 +268,7 @@ function ArticleCard({ article }: { article: any }) {
         <h3 className="text-lg font-bold text-[#1a1a1a] group-hover:text-[#C15F3C] transition-colors leading-snug">
           {article.title}
         </h3>
-        <p className="text-gray-600 text-sm leading-relaxed flex-1">
+        <p className="text-gray-600 text-sm leading-relaxed flex-1 line-clamp-4">
           {article.desc}
         </p>
         <div>

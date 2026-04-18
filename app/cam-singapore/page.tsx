@@ -1,6 +1,42 @@
+// app/cam-singapore/page.tsx
 import PageTemplate from '@/app/components/pagetemplate';
 
-export default function CAMSingaporePage() {
+// Define the type for an offering item from the API
+interface ApiOffering {
+  name: string;
+  _state?: number;
+  _modified?: number;
+  _mby?: string;
+  _created?: number;
+  _cby?: string;
+  _id?: string;
+}
+
+// This is a Server Component, so we can fetch data directly
+async function getOfferingsData(): Promise<ApiOffering[]> {
+  try {
+    const res = await fetch('https://cms.urelegal.in/api/content/items/Offeringsingapore', {
+      cache: 'no-store', // Always get fresh data
+      // OR use: next: { revalidate: 3600 } for periodic updates
+    });
+    
+    if (!res.ok) {
+      throw new Error(`Failed to fetch offerings: ${res.status}`);
+    }
+    
+    const data = await res.json();
+    console.log('Fetched Singapore offerings:', data); // For debugging
+    return data;
+  } catch (error) {
+    console.error('Error fetching Singapore offerings data:', error);
+    return [];
+  }
+}
+
+export default async function CAMSingaporePage() {
+  // Fetch offerings data from API
+  const apiOfferings = await getOfferingsData();
+  
   const sidebar = (
     <div className="space-y-6">
       <div className="flex items-center gap-3 text-sm">
@@ -49,24 +85,27 @@ export default function CAMSingaporePage() {
 
           <div className="relative">
             <div className="border-4 border-[#4a1532] p-8">
-              <ul className="space-y-3 text-sm text-[#1a1a1a] list-none">
-                <li>International Arbitration</li>
-                <li>Fintech</li>
-                <li>Investment Funds</li>
-                <li>Corporate Advisory</li>
-                <li>Private Equity</li>
-                <li>Capital Markets</li>
-                <li>Banking & Finance</li>
-                <li>Technology & Data Protection</li>
-                <li>Cross Border Insolvency</li>
-                <li>Private Client</li>
-              </ul>
+              {apiOfferings.length > 0 ? (
+                <ul className="space-y-3 text-sm text-[#1a1a1a] list-none">
+                  {apiOfferings.map((offering, index) => (
+                    <li key={offering._id || index}>
+                      {offering.name}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-500 text-center py-8">
+                  No offerings data available at the moment.
+                </p>
+              )}
             </div>
             <div className="absolute -right-6 -top-6 w-8 h-12 bg-[#D4A464]" />
           </div>
         </div>
 
-        <p className="text-sm text-gray-700">CAM Singapore resident Partner is <a className="text-[#C15F3C]">Adarsh Saxena</a>.</p>
+        <p className="text-sm text-gray-700">
+          CAM Singapore resident Partner is <a href="#" className="text-[#C15F3C] hover:underline">Adarsh Saxena</a>.
+        </p>
       </div>
     </PageTemplate>
   );

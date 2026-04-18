@@ -1,7 +1,119 @@
+// app/cam-gift-city/page.tsx
 import PageTemplate from '@/app/components/pagetemplate';
 import Link from 'next/link';
 
-export default function CAMGiftCityPage() {
+// Define the type for an offering item from the API
+interface ApiOffering {
+  name: string;
+  _state?: number;
+  _modified?: number;
+  _mby?: string;
+  _created?: number;
+  _cby?: string;
+  _id?: string;
+}
+
+// Helper function to check if an offering item contains the special AMC/AIFs structure
+function isComplexOffering(name: string): boolean {
+  const complexKeywords = ['End-to-end assistance', 'AMC', 'AIFs', 'IFSC Banking Units', 'Foreign university'];
+  return complexKeywords.some(keyword => name.includes(keyword));
+}
+
+// Helper function to parse complex offering items into main point + sub-points
+function parseComplexOffering(name: string): { main: string; subItems: string[] } | null {
+  // Check for the specific complex offering pattern
+  if (name.includes('End-to-end assistance') && name.includes('i.')) {
+    // Extract sub-points using regex
+    const subItems: string[] = [];
+    const patterns = [
+      /i\.\s*([^i.]+)/,
+      /ii\.\s*([^i.]+)/,
+      /iii\.\s*([^i.]+)/,
+      /iv\.\s*([^i.]+)/,
+      /v\.\s*([^i.]+)/
+    ];
+    
+    patterns.forEach(pattern => {
+      const match = name.match(pattern);
+      if (match && match[1]) {
+        subItems.push(match[1].trim());
+      }
+    });
+    
+    if (subItems.length > 0) {
+      return {
+        main: 'End-to-end assistance in setting and structuring',
+        subItems: subItems
+      };
+    }
+  }
+  
+  return null;
+}
+
+// Helper function to format offering text for display
+function formatOfferingText(name: string): string {
+  // Remove any numbering patterns like "i.", "ii.", etc. from display
+  let formatted = name.replace(/\s*[ivx]+\.\s*/gi, '');
+  formatted = formatted.replace(/\s*\d+\.\s*/g, '');
+  return formatted.trim();
+}
+
+// This is a Server Component, so we can fetch data directly
+async function getOfferingsData(): Promise<ApiOffering[]> {
+  try {
+    const res = await fetch('https://cms.urelegal.in/api/content/items/Offeringcamgiftcity', {
+      cache: 'no-store', // Always get fresh data
+      // OR use: next: { revalidate: 3600 } for periodic updates
+    });
+    
+    if (!res.ok) {
+      throw new Error(`Failed to fetch offerings: ${res.status}`);
+    }
+    
+    const data = await res.json();
+    console.log('Fetched offerings:', data); // For debugging
+    return data;
+  } catch (error) {
+    console.error('Error fetching offerings data:', error);
+    return [];
+  }
+}
+
+export default async function CAMGiftCityPage() {
+  // Fetch offerings data from API
+  const apiOfferings = await getOfferingsData();
+  
+  // Transform API data for display
+  const renderOfferings = () => {
+    return apiOfferings.map((offering, index) => {
+      const complexData = parseComplexOffering(offering.name);
+      
+      if (complexData) {
+        // Render complex offering with sub-points
+        return (
+          <li key={index} className="mb-4">
+            <strong>{complexData.main}</strong>
+            <ul className="list-none pl-4 mt-2 space-y-1 text-sm text-gray-700">
+              {complexData.subItems.map((subItem, subIndex) => (
+                <li key={subIndex}>
+                  {String.fromCharCode(97 + subIndex)}. {subItem}
+                </li>
+              ))}
+            </ul>
+          </li>
+        );
+      } else {
+        // Render regular offering item
+        return (
+          <li key={index} className="mb-2">
+            {formatOfferingText(offering.name)}
+          </li>
+        );
+      }
+    });
+  };
+  
   const sidebar = (
     <div className="space-y-6">
       <div className="flex items-center gap-3 justify-end">
@@ -35,29 +147,22 @@ export default function CAMGiftCityPage() {
 
         <div className="relative">
           <div className="border-4 border-[#5b1744] p-8 bg-white">
-            <ol className="list-decimal list-inside space-y-2 text-gray-800">
-              <li><strong>End-to-end assistance in setting and structuring</strong>
-                <ul className="list-none pl-4 mt-2 space-y-1 text-sm text-gray-700">
-                  <li>i. AMC</li>
-                  <li>ii. AIFs</li>
-                  <li>iii. IFSC Banking Units (IBUs)</li>
-                  <li>iv. Foreign university and education institutions</li>
-                  <li>v. Insurance/reinsurance offices</li>
-                </ul>
-              </li>
-              <li>Documentation for financial products and services to be provided out of IFSC</li>
-              <li>Advice on structuring and availment of various tax incentives and other benefits and concessions</li>
-              <li>Procuring regulatory approvals, if any</li>
-              <li>Real Estate and structuring investments for HNIs</li>
-              <li>Dispute resolution and policy advocacy</li>
-            </ol>
+            {apiOfferings.length > 0 ? (
+              <ol className="list-decimal list-inside space-y-3 text-gray-800">
+                {renderOfferings()}
+              </ol>
+            ) : (
+              <p className="text-gray-500 text-center py-8">
+                No offerings data available at the moment.
+              </p>
+            )}
           </div>
 
           <div className="absolute -right-4 -top-4 w-8 h-8 border-4 border-[#d6a36b] bg-white"></div>
         </div>
 
         <p className="text-base text-gray-700">
-          CAM Gift City resident partners are <Link href="#" className="text-[#C15F3C]">Ketaki Gor Mehta</Link> and <Link href="#" className="text-[#C15F3C]">Alok Sonkar</Link>.
+          CAM Gift City resident partners are <Link href="#" className="text-[#C15F3C] hover:underline">Ketaki Gor Mehta</Link> and <Link href="#" className="text-[#C15F3C] hover:underline">Alok Sonkar</Link>.
         </p>
       </div>
     </PageTemplate>
