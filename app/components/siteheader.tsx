@@ -65,8 +65,8 @@ const navItems: NavItem[] = [
       { label: 'cam gift city', href: '/cam-gift-city' },
     ],
   },
-  { label: 'careers', href: './careers' },
-  { label: 'contact us', href: './contactus' },
+  { label: 'careers', href: '/careers' },
+  { label: 'contact us', href: '/contactus' },
 ];
 
 export default function SiteHeader() {

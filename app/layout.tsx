@@ -14,8 +14,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ure Legal",
-  description: "Ure Legal",
+  title: "URE Legal | Premier Advocates in Corporate, Finance & Dispute Resolution",
+  description: "URE Legal is a leading law firm specializing in corporate law, finance, dispute resolution, and competition/antitrust matters. Providing strategic legal solutions for domestic and international clients.",
+  keywords: ["law firm", "legal advocates", "corporate law", "finance law", "dispute resolution", "competition law", "antitrust", "URE Legal"],
+  openGraph: {
+    title: "URE Legal | Premier Advocates",
+    description: "Leading law firm providing strategic legal solutions.",
+    type: "website",
+    locale: "en_IN",
+  },
+  icons: {
+    icon: "/favicon-16x16.png",
+  },
 };
 
 export default function RootLayout({

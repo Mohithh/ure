@@ -175,7 +175,28 @@ export default function FullscreenMenu({ isOpen, onCloseAction }: Props) {
                 <ul className="flex flex-col gap-3">
                   {camCorporate.map((item) => (
                     <li key={item}>
-                      <Link href="#" className="lowercase text-[13px] font-semibold text-[#C15F3C] hover:bg-[#B1ADA1]/30 px-2 py-1 rounded-sm transition-all whitespace-nowrap">
+                      <Link 
+                        href={
+                          item === 'competition/antitrust' ? '/expertise/competition-antitrust' : 
+                          item === 'corporate governance' ? '/expertise/corporate-governance' : 
+                          item === 'employment' ? '/expertise/employment' : 
+                          item === 'esg' ? '/expertise/esg' : 
+                          item === 'intellectual property' ? '/expertise/intellectual-property' :
+                          item === 'investment funds' ? '/expertise/investment-funds' :
+                          item === 'mergers & acquisitions/joint venture' ? '/expertise/mergers-acquisitions' :
+                          item === 'private client' ? '/expertise/private-client' :
+                          item === 'private equity' ? '/expertise/private-equity' :
+                          item === 'public policy' ? '/expertise/public-policy' :
+                          item === 'real estate' ? '/expertise/real-estate' :
+                          item === 'taxation' ? '/expertise/taxation' : 
+                          item === 'banking and finance' ? '/expertise/banking-finance' :
+                          item === 'financial regulatory' ? '/expertise/financial-regulatory' :
+                          item === 'infrastructure & project finance' ? '/expertise/infrastructure-projects' :
+                          item === 'insolvency & bankruptcy' ? '/expertise/insolvency-bankruptcy' : '#'
+                        } 
+                        onClick={onCloseAction}
+                        className="lowercase text-[13px] font-semibold text-[#C15F3C] hover:bg-[#B1ADA1]/30 px-2 py-1 rounded-sm transition-all whitespace-nowrap"
+                      >
                         {item}
                       </Link>
                     </li>

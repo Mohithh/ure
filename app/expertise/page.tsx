@@ -97,7 +97,41 @@ export default function ExpertisePage() {
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                                 {current.items.map(item => (
                                     <div key={item} className="flex items-center justify-between bg-white/20 hover:bg-white/40 px-4 py-2.5 cursor-pointer group transition-colors">
-                                        <span className="text-[11.5px] text-[#2d2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</span>
+                                        {item === 'Competition/Antitrust' ? (
+                                            <Link href="/expertise/competition-antitrust" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'Corporate Governance' ? (
+                                            <Link href="/expertise/corporate-governance" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'Employment' ? (
+                                            <Link href="/expertise/employment" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'ESG' ? (
+                                            <Link href="/expertise/esg" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'Intellectual Property' ? (
+                                            <Link href="/expertise/intellectual-property" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'Investment Funds' ? (
+                                            <Link href="/expertise/investment-funds" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'Mergers & Acquisitions/Joint Venture' ? (
+                                            <Link href="/expertise/mergers-acquisitions" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'Private Client' ? (
+                                            <Link href="/expertise/private-client" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'Private Equity' ? (
+                                            <Link href="/expertise/private-equity" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'Public Policy' ? (
+                                            <Link href="/expertise/public-policy" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'Real Estate' ? (
+                                            <Link href="/expertise/real-estate" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'Taxation' ? (
+                                            <Link href="/expertise/taxation" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'Banking & Finance' ? (
+                                            <Link href="/expertise/banking-finance" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'Financial Regulatory' ? (
+                                            <Link href="/expertise/financial-regulatory" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'Infrastructure & Project Finance' ? (
+                                            <Link href="/expertise/infrastructure-projects" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : item === 'Insolvency & Bankruptcy' ? (
+                                            <Link href="/expertise/insolvency-bankruptcy" className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</Link>
+                                        ) : (
+                                            <span className="text-[11.5px] text-[#2D2926]/80 group-hover:text-[#C15F3C] transition-colors">{item}</span>
+                                        )}
                                         <svg className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                                     </div>
                                 ))}

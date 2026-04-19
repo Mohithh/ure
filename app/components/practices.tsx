@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 export default function Practices() {
   return (
@@ -23,18 +24,18 @@ export default function Practices() {
               </h3>
 
               <div className="space-y-2.5 text-[13px] opacity-90 font-medium">
-                <p>→ competition/antitrust</p>
-                <p>→ corporate governance</p>
-                <p>→ employment</p>
-                <p>→ esg</p>
-                <p>→ intellectual property</p>
-                <p>→ investment funds</p>
-                <p>→ mergers & acquisitions/joint venture</p>
-                <p>→ private client</p>
-                <p>→ private equity</p>
-                <p>→ public policy</p>
-                <p>→ real estate</p>
-                <p>→ taxation</p>
+                <p>→ <Link href="/expertise/competition-antitrust" className="hover:text-[#cbc7bf] transition-colors">competition/antitrust</Link></p>
+                <p>→ <Link href="/expertise/corporate-governance" className="hover:text-[#cbc7bf] transition-colors">corporate governance</Link></p>
+                <p>→ <Link href="/expertise/employment" className="hover:text-[#cbc7bf] transition-colors">employment</Link></p>
+                <p>→ <Link href="/expertise/esg" className="hover:text-[#cbc7bf] transition-colors">esg</Link></p>
+                <p>→ <Link href="/expertise/intellectual-property" className="hover:text-[#cbc7bf] transition-colors">intellectual property</Link></p>
+                <p>→ <Link href="/expertise/investment-funds" className="hover:text-[#cbc7bf] transition-colors">investment funds</Link></p>
+                <p>→ <Link href="/expertise/mergers-acquisitions" className="hover:text-[#cbc7bf] transition-colors">mergers & acquisitions/joint venture</Link></p>
+                <p>→ <Link href="/expertise/private-client" className="hover:text-[#cbc7bf] transition-colors">private client</Link></p>
+                <p>→ <Link href="/expertise/private-equity" className="hover:text-[#cbc7bf] transition-colors">private equity</Link></p>
+                <p>→ <Link href="/expertise/public-policy" className="hover:text-[#cbc7bf] transition-colors">public policy</Link></p>
+                <p>→ <Link href="/expertise/real-estate" className="hover:text-[#cbc7bf] transition-colors">real estate</Link></p>
+                <p>→ <Link href="/expertise/taxation" className="hover:text-[#cbc7bf] transition-colors">taxation</Link></p>
               </div>
             </div>
 
@@ -46,10 +47,10 @@ export default function Practices() {
               </h3>
 
               <div className="space-y-2.5 text-[13px] opacity-90 font-medium">
-                <p>→ banking and finance</p>
-                <p>→ financial regulatory</p>
-                <p>→ infrastructure & project finance</p>
-                <p>→ insolvency & bankruptcy</p>
+                <p>→ <Link href="/expertise/banking-finance" className="hover:text-[#cbc7bf] transition-colors">banking and finance</Link></p>
+                <p>→ <Link href="/expertise/financial-regulatory" className="hover:text-[#cbc7bf] transition-colors">financial regulatory</Link></p>
+                <p>→ <Link href="/expertise/infrastructure-projects" className="hover:text-[#cbc7bf] transition-colors">infrastructure & project finance</Link></p>
+                <p>→ <Link href="/expertise/insolvency-bankruptcy" className="hover:text-[#cbc7bf] transition-colors">insolvency & bankruptcy</Link></p>
               </div>
             </div>
 
