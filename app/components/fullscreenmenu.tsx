@@ -76,59 +76,58 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-// ── Expertise data with # hrefs (rename later) ──────────────────────────────
+// ── Expertise data ────────────────────────────────────────────────────────────
+// hrefs merged from both Code 1 and Code 2
 
 const camCorporateLinks = [
-  { label: 'competition/antitrust',               href: '#' },
-  { label: 'corporate governance',                href: '#' },
-  { label: 'employment',                          href: '#' },
-  { label: 'esg',                                 href: '#' },
-  { label: 'intellectual property',               href: '#' },
-  { label: 'investment funds',                    href: '#' },
-  { label: 'mergers & acquisitions/joint venture',href: '#' },
-  { label: 'private client',                      href: '#' },
-  { label: 'private equity',                      href: '#' },
-  { label: 'public policy',                       href: '#' },
-  { label: 'real estate',                         href: '#' },
-  { label: 'taxation',                            href: '#' },
-  { label: 'technology law',                      href: '#' },
-  { label: 'data privacy & protection',           href: '#' },
-  { label: 'telecommunications',                  href: '#' },
-  { label: 'general corporate',                   href: '#' },
+  { label: 'competition/antitrust',                href: '/expertise/competition-antitrust' },
+  { label: 'corporate governance',                 href: '/expertise/corporate-governance' },
+  { label: 'employment',                           href: '/expertise/employment' },
+  { label: 'esg',                                  href: '/expertise/esg' },
+  { label: 'intellectual property',                href: '/expertise/intellectual-property' },
+  { label: 'investment funds',                     href: '/expertise/investment-funds' },
+  { label: 'mergers & acquisitions/joint venture', href: '/expertise/mergers-acquisitions' },
+  { label: 'private client',                       href: '/expertise/private-client' },
+  { label: 'private equity',                       href: '/expertise/private-equity' },
+  { label: 'public policy',                        href: '/expertise/public-policy' },
+  { label: 'real estate',                          href: '/expertise/real-estate' },
+  { label: 'taxation',                             href: '/expertise/taxation' },
+  { label: 'technology law',                       href: '#' },
+  { label: 'data privacy & protection',            href: '#' },
+  { label: 'telecommunications',                   href: '#' },
+  { label: 'general corporate',                    href: '#' },
 ];
 
 const camFinanceLinks = [
-  { label: 'banking and finance',                 href: '/banking_and_finance' },
-  { label: 'financial regulatory',                href: '/financial_regulatory' },
-  { label: 'infrastructure & project finance',    href: '/infrastructure_project_finance' },
-  { label: 'insolvency & bankruptcy',             href: '/insolvency_bankruptcy' },
+  { label: 'banking and finance',              href: '/banking_and_finance' },
+  { label: 'financial regulatory',             href: '/financial_regulatory' },
+  { label: 'infrastructure & project finance', href: '/infrastructure_project_finance' },
+  { label: 'insolvency & bankruptcy',          href: '/insolvency_bankruptcy' },
 ];
 
-
 const camDisputeLinks = [
-  { label: 'arbitration',                         href: '/arbitration' },
-  { label: 'litigation',                          href: '/litigation' },
-  { label: 'white collar/investigations',         href: 'white_collar' },
+  { label: 'arbitration',              href: '/arbitration' },
+  { label: 'litigation',               href: '/litigation' },
+  { label: 'white collar/investigations', href: '/white_collar' },
 ];
 
 const camMarketsLinks = [
-  { label: 'capital markets',                    href: '/capital_markets' },
-    { label: 'Debt Markets',                     href: '/Debt_Markets' },
-  { label: 'Security Markets Regulatory',        href: '/Security_Markets_Regulatory' }
-
+  { label: 'capital markets',               href: '/capital_markets' },
+  { label: 'debt markets',                  href: '/Debt_Markets' },
+  { label: 'security markets regulatory',   href: '/Security_Markets_Regulatory' },
 ];
 
 const sectorLinks = [
-  { label: 'aerospace & defence',                         href: '/aerospacedefence' },
-  { label: 'energy',                                      href: '/energy' },
-  { label: 'fintech',                                     href: '/fintech' },
-  { label: 'insurance',                                   href: '/insurance' },
-  { label: 'media & entertainment',                       href: '/media_entertainment' },
-  { label: 'pharmaceuticals, healthcare & life sciences', href: '/pharmaceuticals_healthcare' },
-  { label: 'technology, media and telecommunications (tmt)', href: '/tmt' },
+  { label: 'aerospace & defence',                              href: '/aerospacedefence' },
+  { label: 'energy',                                           href: '/energy' },
+  { label: 'fintech',                                          href: '/fintech' },
+  { label: 'insurance',                                        href: '/insurance' },
+  { label: 'media & entertainment',                            href: '/media_entertainment' },
+  { label: 'pharmaceuticals, healthcare & life sciences',      href: '/pharmaceuticals_healthcare' },
+  { label: 'technology, media and telecommunications (tmt)',   href: '/tmt' },
 ];
 
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 
 type Props = {
   isOpen: boolean;
@@ -235,7 +234,10 @@ export default function FullscreenMenu({ isOpen, onCloseAction }: Props) {
                 <h3 className="text-[#C15F3C] text-lg font-semibold lowercase mb-6">expertise</h3>
                 <h4 className="text-[#C15F3C] text-base font-semibold lowercase mb-5">our practices</h4>
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-[#C15F3C] text-lg font-semibold lowercase" style={{ fontFamily: "'EB Garamond', serif" }}>
+                  <h4
+                    className="text-[#C15F3C] text-lg font-semibold lowercase"
+                    style={{ fontFamily: "'EB Garamond', serif" }}
+                  >
                     cam corporate
                   </h4>
                   <span className="text-[#B1ADA1] text-2xl font-light ml-4">−</span>
@@ -259,7 +261,10 @@ export default function FullscreenMenu({ isOpen, onCloseAction }: Props) {
               <div className="min-w-[180px] mt-14">
 
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-[#C15F3C] text-lg font-semibold lowercase" style={{ fontFamily: "'EB Garamond', serif" }}>
+                  <h4
+                    className="text-[#C15F3C] text-lg font-semibold lowercase"
+                    style={{ fontFamily: "'EB Garamond', serif" }}
+                  >
                     cam finance
                   </h4>
                   <span className="text-[#B1ADA1] text-2xl font-light ml-4">−</span>
@@ -278,13 +283,11 @@ export default function FullscreenMenu({ isOpen, onCloseAction }: Props) {
                   ))}
                 </ul>
 
-              
-                <ul className="flex flex-col gap-3 mb-8">
-                 
-                </ul>
-
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-[#C15F3C] text-lg font-semibold lowercase" style={{ fontFamily: "'EB Garamond', serif" }}>
+                  <h4
+                    className="text-[#C15F3C] text-lg font-semibold lowercase"
+                    style={{ fontFamily: "'EB Garamond', serif" }}
+                  >
                     cam dispute resolution
                   </h4>
                   <span className="text-[#B1ADA1] text-2xl font-light ml-4">−</span>
@@ -304,7 +307,10 @@ export default function FullscreenMenu({ isOpen, onCloseAction }: Props) {
                 </ul>
 
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-[#C15F3C] text-lg font-semibold lowercase" style={{ fontFamily: "'EB Garamond', serif" }}>
+                  <h4
+                    className="text-[#C15F3C] text-lg font-semibold lowercase"
+                    style={{ fontFamily: "'EB Garamond', serif" }}
+                  >
                     cam markets
                   </h4>
                   <span className="text-[#B1ADA1] text-2xl font-light ml-4">−</span>
@@ -379,4 +385,4 @@ export default function FullscreenMenu({ isOpen, onCloseAction }: Props) {
       </div>
     </div>
   );
-}   
+}
