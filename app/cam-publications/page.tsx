@@ -1,7 +1,8 @@
 // app/cam-publications/page.tsx
 'use client';
-import PageTemplate from '@/app/components/pagetemplate';
+
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 // Define the type for a publication from the API
 interface ApiPublication {
@@ -18,13 +19,15 @@ interface ApiPublication {
 
 // Define the type for display
 interface Publication {
+  id: string;
   title: string;
   desc: string;
   date: string;
+  year: string;
   accent: string;
 }
 
-// Array of accent colors for visual variety (static - not from API)
+// Array of accent colors for visual variety
 const accentColors = [
   "#C15F3C",
   "#4a3728",
@@ -36,16 +39,66 @@ const accentColors = [
   "#3a6b4a"
 ];
 
+// Helper function to extract year from date string
+const extractYear = (dateStr: string): string => {
+  const match = dateStr.match(/\d{4}/);
+  return match ? match[0] : "2024";
+};
+
+// Format date to display format (e.g., "January 22, 2024")
+const formatDate = (dateStr: string): string => {
+  // If date is already formatted nicely, return as is
+  if (dateStr.match(/[A-Za-z]+\s\d{1,2},\s\d{4}/)) {
+    return dateStr;
+  }
+  
+  // Try to parse and format
+  const match = dateStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (match) {
+    const month = parseInt(match[1]);
+    const day = parseInt(match[2]);
+    const year = match[3];
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    return `${monthNames[month - 1]} ${day}, ${year}`;
+  }
+  
+  return dateStr;
+};
+
 export default function CAMPublicationsPage() {
   const [publications, setPublications] = useState<Publication[]>([]);
   const [filteredPublications, setFilteredPublications] = useState<Publication[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showAll, setShowAll] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(6);
   
   // Filter states
-  const [selectedPractice, setSelectedPractice] = useState('All Practice Areas');
-  const [selectedSector, setSelectedSector] = useState('All Sectors');
   const [selectedYear, setSelectedYear] = useState('All Years');
+
+  // Get unique years from publications
+  const getUniqueYears = () => {
+    const years = [...new Set(publications.map(pub => pub.year))];
+    return years.sort((a, b) => b.localeCompare(a));
+  };
+
+  // Apply filters
+  const applyFilters = () => {
+    let filtered = [...publications];
+    
+    // Filter by year
+    if (selectedYear !== 'All Years') {
+      filtered = filtered.filter(pub => pub.year === selectedYear);
+    }
+    
+    setFilteredPublications(filtered);
+    setVisibleCount(6);
+  };
+
+  // Reset all filters
+  const resetFilters = () => {
+    setSelectedYear('All Years');
+    setFilteredPublications(publications);
+    setVisibleCount(6);
+  };
 
   // Fetch publications data from API
   useEffect(() => {
@@ -61,11 +114,13 @@ export default function CAMPublicationsPage() {
         
         const data: ApiPublication[] = await res.json();
         
-        // Transform API data to match component's format with random accent colors
+        // Transform API data
         const transformedData: Publication[] = data.map((item, index) => ({
+          id: item._id || String(index),
           title: item.title || '',
           desc: item.desc || '',
-          date: item.date || '',
+          date: formatDate(item.date || ''),
+          year: extractYear(item.date || ''),
           accent: accentColors[index % accentColors.length]
         }));
         
@@ -83,184 +138,133 @@ export default function CAMPublicationsPage() {
     fetchPublications();
   }, []);
 
-  // Get unique years from publications
-  const getUniqueYears = () => {
-    const years = [...new Set(publications.map(pub => {
-      const yearMatch = pub.date.match(/\d{4}/);
-      return yearMatch ? yearMatch[0] : null;
-    }).filter(Boolean))] as string[];
-    return years.sort((a, b) => b.localeCompare(a));
-  };
-
-  // Apply filters
-  const applyFilters = () => {
-    let filtered = [...publications];
-    
-    // Filter by year
-    if (selectedYear !== 'All Years') {
-      filtered = filtered.filter(pub => {
-        const yearMatch = pub.date.match(/\d{4}/);
-        return yearMatch && yearMatch[0] === selectedYear;
-      });
-    }
-    
-    // Note: Practice Area and Sector filters are currently placeholders
-    // as the API doesn't provide these fields. You can add them to your CMS if needed.
-    
-    setFilteredPublications(filtered);
-    setShowAll(false); // Reset showAll when filters change
-  };
-
-  // Reset all filters
-  const resetFilters = () => {
-    setSelectedPractice('All Practice Areas');
-    setSelectedSector('All Sectors');
-    setSelectedYear('All Years');
-    setFilteredPublications(publications);
-    setShowAll(false);
-  };
-
-  // Get displayed publications based on showAll state
-  const displayedPublications = showAll 
-    ? filteredPublications 
-    : filteredPublications.slice(0, 4);
-
-  const hasMore = filteredPublications.length > 4;
+  const displayedPublications = filteredPublications.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredPublications.length;
+  const uniqueYears = getUniqueYears();
 
   if (loading) {
     return (
-      <PageTemplate
-        title="URE Legal Publications"
-        subtitle="In-depth analysis of key issues"
-        category="Thought Leadership"
-        showHero={true}
-        showContactForm={false}
-        fullWidth={true}
-      >
-        <div className="flex justify-center items-center py-20">
-          <div className="text-center">
-            <div className="w-12 h-12 border-4 border-[#C15F3C] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading publications...</p>
-          </div>
+      <div className="bg-[#F4F3EE] min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-[#C15F3C] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-[#5a5651]">Loading publications...</p>
         </div>
-      </PageTemplate>
+      </div>
     );
   }
 
-  const uniqueYears = getUniqueYears();
-
   return (
-    <PageTemplate
-      title="URE Legal Publications"
-      subtitle="In-depth analysis of key issues"
-      category="Thought Leadership"
-      showHero={true}
-      showContactForm={false}
-      fullWidth={true}
-    >
-      <div className="space-y-10 pb-20">
+    <div className="bg-[#F4F3EE]">
+      {/* HERO SECTION - Centered like all other pages */}
+      <div className="relative w-full min-h-[400px] bg-gradient-to-br from-[#2d2926] to-[#4a3b35] flex items-center justify-center text-center">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-40 h-40 rounded-full bg-[#C15F3C] blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-60 h-60 rounded-full bg-[#C15F3C] blur-3xl"></div>
+        </div>
+        
+        <div className="relative z-10 px-6 max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 tracking-wide">
+            Publications
+          </h1>
+          <p className="text-xl md:text-2xl text-[#F4F3EE]/90 font-light italic">
+            In-depth analysis of key issues that matter to businesses
+          </p>
+          <div className="w-20 h-[2px] bg-[#C15F3C] mx-auto mt-8"></div>
+        </div>
+      </div>
 
-        {/* Intro text */}
-        <p className="text-xl font-medium text-black">
-          Explore our latest thinking on key issues that matter the most to businesses.
-        </p>
-
-        {/* Filter Bar */}
-        <div className="flex flex-wrap items-center gap-3 pb-4 border-b-2 border-[#C15F3C]">
-          <select 
-            value={selectedPractice}
-            onChange={(e) => setSelectedPractice(e.target.value)}
-            className="border border-gray-300 px-4 py-2 text-sm text-gray-600 bg-white cursor-pointer hover:border-[#C15F3C] transition-colors focus:outline-none focus:border-[#C15F3C]"
-          >
-            <option>All Practice Areas</option>
-            <option>Dispute Resolution</option>
-            <option>Corporate &amp; M&amp;A</option>
-            <option>Labour &amp; Employment</option>
-            <option>Data Privacy</option>
-          </select>
-          <select 
-            value={selectedSector}
-            onChange={(e) => setSelectedSector(e.target.value)}
-            className="border border-gray-300 px-4 py-2 text-sm text-gray-600 bg-white cursor-pointer hover:border-[#C15F3C] transition-colors focus:outline-none focus:border-[#C15F3C]"
-          >
-            <option>All Sectors</option>
-            <option>Banking &amp; Finance</option>
-            <option>Technology</option>
-            <option>Healthcare</option>
-            <option>Real Estate</option>
-          </select>
-          <select 
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
-            className="border border-gray-300 px-4 py-2 text-sm text-gray-600 bg-white cursor-pointer hover:border-[#C15F3C] transition-colors focus:outline-none focus:border-[#C15F3C]"
-          >
-            <option>All Years</option>
-            {uniqueYears.map(year => (
-              <option key={year} value={year}>{year}</option>
-            ))}
-          </select>
-          <button 
-            onClick={applyFilters}
-            className="bg-[#C15F3C] text-white px-6 py-2 text-sm font-bold hover:bg-[#a0502f] transition-colors"
-          >
-            Apply
-          </button>
-          <button
-            onClick={resetFilters}
-            className="text-[#C15F3C] text-sm font-medium hover:underline ml-2"
-          >
-            Reset Filters
-          </button>
+      {/* MAIN CONTENT */}
+      <div className="max-w-7xl mx-auto px-6 md:px-16 py-14">
+        
+        {/* Intro Text */}
+        <div className="mb-10">
+          <div className="w-12 h-[1px] bg-[#C15F3C]/40 mb-5" />
+          <p className="text-base md:text-lg font-light text-[#2d2926] leading-relaxed">
+            Explore our latest thinking on key issues that matter the most to businesses.
+          </p>
         </div>
 
-        {/* Results Count */}
-        <div className="text-sm text-gray-500">
-          Showing {displayedPublications.length} of {filteredPublications.length} publications
+        {/* Filter Bar - Only Year Filter */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-[#d8d3d3]">
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-[#5a5651]">Filter by year:</span>
+            <select 
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+              className="border border-[#d8d3d3] px-4 py-2 text-sm text-[#5a5651] bg-white cursor-pointer hover:border-[#C15F3C] transition-colors focus:outline-none focus:border-[#C15F3C]"
+            >
+              <option>All Years</option>
+              {uniqueYears.map(year => (
+                <option key={year} value={year}>{year}</option>
+              ))}
+            </select>
+            
+            <button 
+              onClick={applyFilters}
+              className="bg-[#C15F3C] text-white px-6 py-2 text-sm font-semibold hover:bg-[#8B3A1E] transition-all hover:scale-105 shadow-md"
+            >
+              Apply
+            </button>
+            
+            <button
+              onClick={resetFilters}
+              className="text-[#C15F3C] text-sm font-medium hover:underline transition-all"
+            >
+              Reset
+            </button>
+          </div>
+          
+          {/* Results Count */}
+          <div className="text-sm text-[#5a5651]">
+            Showing {displayedPublications.length} of {filteredPublications.length} publications
+          </div>
         </div>
 
-        {/* 2-Column Card Grid - DYNAMIC from API */}
+        {/* Publications Grid - 3 Columns */}
         {displayedPublications.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {displayedPublications.map((pub, idx) => (
               <div
-                key={idx}
-                className="flex bg-white border border-[#B1ADA1]/30 hover:shadow-lg transition-shadow group cursor-pointer min-h-[280px]"
+                key={pub.id}
+                className="bg-white border border-[#e0dbd5] rounded-sm hover:shadow-md transition-all duration-300 group cursor-pointer overflow-hidden flex flex-col"
               >
-                {/* Left: Book Cover Image Placeholder - DYNAMIC color from API item */}
+                {/* Top: Book Cover Placeholder with Title */}
                 <div
-                  className="w-52 flex-shrink-0 relative overflow-hidden"
+                  className="w-full h-48 flex-shrink-0 relative overflow-hidden"
                   style={{ backgroundColor: pub.accent }}
                 >
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
-                    <div className="w-14 h-14 rounded-full bg-white/20 mb-3 flex items-center justify-center">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                    <div className="w-14 h-14 rounded-full bg-white/20 mb-4 flex items-center justify-center">
                       <span className="text-white text-xs font-bold uppercase">URE</span>
                     </div>
-                    <span className="text-white text-[9px] font-bold uppercase tracking-wider leading-tight text-center opacity-80">
-                      ure legal
-                    </span>
+                    <h4 className="text-white text-sm font-semibold leading-tight line-clamp-2">
+                      {pub.title}
+                    </h4>
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/30"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20" />
                 </div>
 
-                {/* Right: Content */}
-                <div className="flex-1 p-7 flex flex-col justify-between">
-                  <div className="space-y-3">
-                    <h3 className="text-lg font-bold text-[#1a1a1a] group-hover:text-[#C15F3C] transition-colors leading-snug">
-                      {pub.title}
-                    </h3>
-                    <p className="text-gray-500 text-sm leading-relaxed">
-                      {pub.desc}
-                    </p>
-                    <p className="text-gray-400 text-sm font-semibold pt-1">{pub.date}</p>
-                  </div>
+                {/* Bottom: Content */}
+                <div className="flex-1 p-5 flex flex-col">
+                  <p className="text-[#5a5651] text-sm leading-relaxed line-clamp-3 mb-4">
+                    {pub.desc}
+                  </p>
+                  
+                  <p className="text-[#B1ADA1] text-xs font-medium mb-4">
+                    {pub.date}
+                  </p>
 
-                  {/* Action Icons - Download + Bookmark */}
-                  <div className="flex items-center gap-3 mt-6">
-                    <button className="w-9 h-9 rounded-full border-2 border-[#C15F3C]/50 hover:bg-[#C15F3C] hover:border-[#C15F3C] flex items-center justify-center transition-all">
-                      <span className="text-[#C15F3C] hover:text-white text-sm">↓</span>
+                  {/* Action Buttons */}
+                  <div className="flex items-center gap-3 mt-auto pt-4 border-t border-[#f0e6e0]">
+                    <button className="w-8 h-8 rounded-full border border-[#C15F3C]/30 hover:bg-[#C15F3C] hover:border-[#C15F3C] flex items-center justify-center transition-all group">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-[#C15F3C] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
                     </button>
-                    <button className="w-9 h-9 rounded-full border-2 border-[#C15F3C]/50 hover:bg-[#C15F3C] hover:border-[#C15F3C] flex items-center justify-center transition-all text-xs">
-                      <span className="text-[#C15F3C] hover:text-white">🔖</span>
+                    <button className="w-8 h-8 rounded-full border border-[#C15F3C]/30 hover:bg-[#C15F3C] hover:border-[#C15F3C] flex items-center justify-center transition-all group">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-[#C15F3C] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                      </svg>
                     </button>
                   </div>
                 </div>
@@ -268,24 +272,80 @@ export default function CAMPublicationsPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 text-gray-500">
+          <div className="text-center py-12 text-[#5a5651]">
             No publications found matching your filters.
           </div>
         )}
 
-        {/* Load More */}
-        {!showAll && hasMore && (
-          <div className="text-center pt-4">
+        {/* Load More Button */}
+        {hasMore && (
+          <div className="flex justify-center pt-4">
             <button
-              onClick={() => setShowAll(true)}
-              className="bg-[#C15F3C] text-white px-12 py-3 font-semibold hover:bg-[#a0502f] transition-colors"
+              onClick={() => setVisibleCount(visibleCount + 6)}
+              className="bg-[#C15F3C] text-white px-8 py-3 text-sm font-semibold hover:bg-[#8B3A1E] transition-all hover:scale-105 shadow-md"
             >
               Load More
             </button>
           </div>
         )}
 
+        {/* Print/Mail Icons */}
+        <div className="flex justify-end gap-3 mt-16 mb-12">
+          <div className="w-8 h-8 rounded-full bg-white border border-[#e0dbd5] flex items-center justify-center cursor-pointer hover:bg-[#C15F3C] hover:text-white hover:border-[#C15F3C] transition-all group">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-[#5a5651] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div className="w-8 h-8 rounded-full bg-white border border-[#e0dbd5] flex items-center justify-center cursor-pointer hover:bg-[#C15F3C] hover:text-white hover:border-[#C15F3C] transition-all group">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-[#5a5651] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Newsletter CTA - White background */}
+        <div className="bg-white border border-[#e0dbd5] rounded-sm p-8 text-center shadow-sm">
+          <h3 className="text-xl font-semibold text-[#2d2926] mb-3">
+            Join 100,000+ decision makers
+          </h3>
+          <p className="text-[#5a5651] mb-6 max-w-2xl mx-auto text-sm">
+            Subscribe to CAM newsletter and stay up to date with all the significant developments 
+            in Indian corporate and commercial law that impact the corporate ecosystem.
+          </p>
+          <div className="flex max-w-md mx-auto gap-3 flex-col sm:flex-row">
+            <input 
+              type="email" 
+              placeholder="Enter your email ID" 
+              className="flex-1 px-4 py-3 bg-[#F4F3EE] border border-[#d8d3d3] text-[#2d2926] outline-none focus:ring-2 focus:ring-[#C15F3C] transition-all rounded-sm"
+            />
+            <button className="bg-[#C15F3C] text-white px-6 py-3 font-semibold hover:bg-[#8B3A1E] transition-all hover:scale-105 shadow-md whitespace-nowrap rounded-sm">
+              Subscribe
+            </button>
+          </div>
+        </div>
       </div>
-    </PageTemplate>
+
+      {/* Add line-clamp for text truncation */}
+      <style jsx global>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+        .animate-spin {
+          animation: spin 1s linear infinite;
+        }
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
+    </div>
   );
 }
